@@ -1,0 +1,27 @@
+<resources>
+    <!-- Login -->
+
+    <string name="company_name">Atentos</string>
+    <string name="app_name">Supercerebros</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="welcome_to">Bienvenido a </string>
+    <string name="welcome_text">Encantados que quieras estar con nosotros </string>
+    <string name="welcome_text_button">Siguiente</string>
+    <string name="no_account">¿No tienes una cuenta?</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="sign_in">Entrar</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Olvidé la contraseña</string>
+
+    <!-- Login end -->
+
+    <!-- Register -->
+
+    <string name="register">Registro</string>
+    <string name="full_name">Nombre completo</string>
+    <string name="birth_date">Fecha de nacimiento</string>
+    <string name="phone">Teléfono</string>
+    <string name="gender">Género</string>
+
+</resources>
