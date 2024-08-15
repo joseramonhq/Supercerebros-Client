@@ -1,14 +1,17 @@
+import org.gradle.kotlin.dsl.dependencies
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
-    namespace = "com.myapp"
+    namespace = "com.supercerebros"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.myapp"
+        applicationId = "com.supercerebros"
         minSdk = 31
         targetSdk = 34
         versionCode = 1
@@ -50,7 +53,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -60,7 +62,23 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.androidx.material3.android)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.compose.material.dialogs.datetime)
+
+
+
+    // Retrofit para conexiones HTTP
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+
+    // OkHttp Logging Interceptor para depuración
+    implementation(libs.okhttp.logging)
+
+    // MongoDB Realm SDK (Opcional)
+    implementation(libs.realm)
+    implementation(libs.firebase.firestore.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
