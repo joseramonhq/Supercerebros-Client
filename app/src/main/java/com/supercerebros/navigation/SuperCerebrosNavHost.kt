@@ -1,5 +1,6 @@
 package com.supercerebros.navigation
 
+import SplashScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -20,9 +21,12 @@ fun SuperCerebrosNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "welcome",
+        startDestination = "login",
         modifier = modifier
     ) {
+        composable("splashscreen"){
+            SplashScreen()
+        }
         composable("welcome") {
             WelcomeScreen(
                 onSignUpClick = { navController.navigate("register") },
@@ -35,9 +39,11 @@ fun SuperCerebrosNavHost(
                 onLoginClick = { email, password ->
                     // Manejar login
                 },
-                onBackClick = { navController.popBackStack() }
+                onRegisterClick = {navController.navigate("register")},
+              //  onBackClick = { navController.popBackStack() }
             )
         }
+
 
         composable("register") {
             RegistrationScreen(

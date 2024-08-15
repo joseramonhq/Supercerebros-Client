@@ -78,6 +78,7 @@ dependencies {
     // MongoDB Realm SDK (Opcional)
     implementation(libs.realm)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.androidx.core.splashscreen)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

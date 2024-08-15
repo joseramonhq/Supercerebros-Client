@@ -5,12 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,20 +16,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.supercerebros.R
 import com.supercerebros.ui.theme.SupercerebrosTheme
+
+private const val s = "Correo Electrónico"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavController, // Añadimos NavController como parámetro
     onLoginClick: (String, String) -> Unit,
-    onBackClick: () -> Unit, // Acción para el botón de volver atrás
+   // onBackClick: () -> Unit, // Acción para el botón de volver atrás
+    onRegisterClick: () -> Unit // Acción para el botón de registrarse
 ) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -41,14 +42,22 @@ fun LoginScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Iniciar Sesión") },
-                navigationIcon = {
+                title = { Text(stringResource(R.string.iniciar_sesion)) },
+              /*  navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Atrás",
                         )
                     }
+                },*/
+                actions = {
+                    Text(
+                        text = stringResource(R.string.registrarse),
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .clickable(onClick = onRegisterClick)
+                    )
                 }
             )
         }
@@ -64,24 +73,22 @@ fun LoginScreen(
             OutlinedTextField(
                 value = email.value,
                 onValueChange = { email.value = it },
-                label = { Text("Correo Electrónico") },
+                label = { Text(stringResource(R.string.email)) },
                 modifier = Modifier.padding(bottom = 16.dp),
                 singleLine = true
-
             )
 
             OutlinedTextField(
                 value = password.value,
                 onValueChange = { password.value = it },
-                label = { Text("Contraseña") },
+                label = { Text(stringResource(id = R.string.password)) },
                 modifier = Modifier.padding(bottom = 16.dp),
                 visualTransformation = PasswordVisualTransformation(),
                 singleLine = true
-
             )
 
             Text(
-                text = "¿Olvidaste tu contraseña?",
+                text = stringResource(R.string.forgoten_password),
                 fontSize = 14.sp,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
@@ -96,6 +103,7 @@ fun LoginScreen(
             ) {
                 Text(text = "Iniciar Sesión")
             }
+
             Button(
                 onClick = { navController.navigate("tutorMenu") },
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -105,6 +113,7 @@ fun LoginScreen(
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
@@ -113,7 +122,9 @@ fun LoginScreenPreview() {
         LoginScreen(
             navController = navController,
             onLoginClick = { _, _ -> },
-            onBackClick = {}
+           // onBackClick = {},
+            onRegisterClick = {} // Añadir callback para la acción de registro
         )
     }
 }
+

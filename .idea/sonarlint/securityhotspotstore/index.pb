@@ -43,3 +43,9 @@ k
 ;app/src/main/java/com/supercerebros/screens/SucessScreen.kt,e\e\eeb484e73c574840d32d21235ce6f5d24988e6d2
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
+k
+;app/src/main/java/com/supercerebros/screens/SplashScreen.kt,d\d\dd9fe6d6f57a0ccf2961be654720dfaddd643e40
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
