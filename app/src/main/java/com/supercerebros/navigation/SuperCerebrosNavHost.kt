@@ -12,7 +12,6 @@ import com.supercerebros.screens.PasswordRecoveryScreen
 import com.supercerebros.screens.RegistrationScreen
 import com.supercerebros.screens.SuccessScreen
 import com.supercerebros.screens.TutorMenuScreen
-import com.supercerebros.screens.WelcomeScreen
 
 @Composable
 fun SuperCerebrosNavHost(
@@ -27,12 +26,7 @@ fun SuperCerebrosNavHost(
         composable("splashscreen"){
             SplashScreen()
         }
-        composable("welcome") {
-            WelcomeScreen(
-                onSignUpClick = { navController.navigate("register") },
-                onLoginClick = { navController.navigate("login") }
-            )
-        }
+
         composable("login") {
             LoginScreen(
                 navController = navController, // Pasar navController aquí
