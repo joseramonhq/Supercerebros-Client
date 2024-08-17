@@ -42,7 +42,7 @@ fun LoginScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.iniciar_sesion)) },
+                title = { Text(stringResource(R.string.login)) },
               /*  navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -53,7 +53,7 @@ fun LoginScreen(
                 },*/
                 actions = {
                     Text(
-                        text = stringResource(R.string.registrarse),
+                        text = stringResource(R.string.sign_up),
                         modifier = Modifier
                             .padding(end = 16.dp)
                             .clickable(onClick = onRegisterClick)

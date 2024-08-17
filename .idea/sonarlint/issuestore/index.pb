@@ -49,3 +49,17 @@ k
 -.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
 S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+i
+9app/src/main/java/com/supercerebros/data/LoginResponse.kt,4\7\47067686dca012294fac377f6e060e9982379ce7
+h
+8app/src/main/java/com/supercerebros/data/LoginRequest.kt,a\a\aabc98af3b2ac8b45902bfaa5dce25f58cb0c71f
+r
+Bapp/src/main/java/com/supercerebros/screens/ChildRegisterScreen.kt,d\5\d51cf106008d2e2f31b6a107db97d172e7cd633d
+q
+Aapp/src/main/java/com/supercerebros/screens/ChildOptionsScreen.kt,0\6\0694dd945112c807f4d5076201865ed6a99c97f2
+f
+6app/src/main/java/com/supercerebros/api/AuthService.kt,2\9\298ece16276d84384d9cca4f4707c96fc49d5b78
+@
+local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca
+C
+settings.gradle.kts,7\4\749edfcc96398253e5b3416184e95c46621da850

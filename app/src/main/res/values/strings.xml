@@ -18,10 +18,11 @@
 
     <!-- Register -->
 
-    <string name="register">Registro</string>
     <string name="full_name">Nombre completo</string>
     <string name="birth_date">Fecha de nacimiento</string>
     <string name="phone">Teléfono</string>
     <string name="gender">Género</string>
+    <string name="login">Iniciar Sesion</string>
+    <string name="forgoten_password">¿Olvidaste la contraseña?</string>
 
 </resources>
