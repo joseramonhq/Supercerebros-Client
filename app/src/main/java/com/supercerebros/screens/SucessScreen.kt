@@ -34,7 +34,7 @@ fun SuccessScreen(navController: NavHostController? = null) {
         Button(
             onClick = {
                 // Navega a la pantalla de inicio o de inicio de sesión
-                navController?.navigate("login") // Cambia "homeScreen" por la ruta de tu pantalla de inicio
+                navController?.navigate("tutorMenu") // Cambia "homeScreen" por la ruta de tu pantalla de inicio
             },
             modifier = Modifier.fillMaxWidth()
         ) {

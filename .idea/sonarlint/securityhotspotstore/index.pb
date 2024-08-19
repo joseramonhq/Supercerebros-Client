@@ -15,8 +15,6 @@ I
 gradle/libs.versions.toml,d\7\d7595319a0658be6f1ed500ad590d42e4b28bc4f
 q
 Aapp/src/main/java/com/supercerebros/screens/RegistrationScreen.kt,8\c\8c8a1f98212bc6c26b18e972cb04cada33f708ca
-l
-<app/src/main/java/com/supercerebros/screens/WelcomeScreen.kt,b\3\b3676f00ed6391986a1a79b5ba63262799ee0dfd
 X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 j
@@ -53,8 +51,6 @@ i
 9app/src/main/java/com/supercerebros/data/LoginResponse.kt,4\7\47067686dca012294fac377f6e060e9982379ce7
 h
 8app/src/main/java/com/supercerebros/data/LoginRequest.kt,a\a\aabc98af3b2ac8b45902bfaa5dce25f58cb0c71f
-r
-Bapp/src/main/java/com/supercerebros/screens/ChildRegisterScreen.kt,d\5\d51cf106008d2e2f31b6a107db97d172e7cd633d
 q
 Aapp/src/main/java/com/supercerebros/screens/ChildOptionsScreen.kt,0\6\0694dd945112c807f4d5076201865ed6a99c97f2
 f
@@ -63,3 +59,7 @@ f
 local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca
 C
 settings.gradle.kts,7\4\749edfcc96398253e5b3416184e95c46621da850
+\
+,app/src/main/java/com/supercerebros/dfs.java,f\a\fa6172393c6b4695c9afdbc66ed243786dc44c18
+f
+6app/src/main/java/com/supercerebros/MyApplication.java,b\2\b29f60c041900a150159bd62846b01142341a0a5

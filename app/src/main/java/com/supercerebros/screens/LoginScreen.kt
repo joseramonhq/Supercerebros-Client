@@ -24,17 +24,23 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.supercerebros.R
+import com.supercerebros.api.RetrofitInstance
+import com.supercerebros.data.LoginRequest
+import com.supercerebros.data.LoginResponse
 import com.supercerebros.ui.theme.SupercerebrosTheme
-
-private const val s = "Correo Electrónico"
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navController: NavController, // Añadimos NavController como parámetro
+    navController: NavController,
     onLoginClick: (String, String) -> Unit,
-   // onBackClick: () -> Unit, // Acción para el botón de volver atrás
-    onRegisterClick: () -> Unit // Acción para el botón de registrarse
+    onRegisterClick: () -> Unit
 ) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -43,14 +49,6 @@ fun LoginScreen(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.login)) },
-              /*  navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Atrás",
-                        )
-                    }
-                },*/
                 actions = {
                     Text(
                         text = stringResource(R.string.sign_up),
@@ -93,24 +91,44 @@ fun LoginScreen(
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .clickable {
-                        navController.navigate("passwordRecovery") // Navegar a la pantalla de recuperación de contraseña
+                        navController.navigate("passwordRecovery")
                     }
             )
 
             Button(
-                onClick = { onLoginClick(email.value, password.value) },
-                modifier = Modifier.padding(bottom = 16.dp)
-            ) {
-                Text(text = "Iniciar Sesión")
-            }
-
-            Button(
-                onClick = { navController.navigate("tutorMenu") },
+                onClick = { onLoginClick(navController,email.value, password.value) },
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 Text(text = "Iniciar Sesión")
             }
         }
+    }
+}
+
+fun onLoginClick(navController: NavController, email: String, password: String) {
+    val loginRequest = LoginRequest(email, password)
+
+    CoroutineScope(Dispatchers.IO).launch {
+        val call = RetrofitInstance.authService.login(loginRequest)
+        call.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    println(loginResponse?.role)
+                    // Maneja el éxito
+                    println("Login exitoso, UserID: ${loginResponse?.userId}")
+                    navController.navigate("tutorMenu") // Navega a la pantalla del menú del tutor
+                } else {
+                    // Maneja errores en la respuesta
+                    println("Error en el login: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                // Maneja la falla en la comunicación, como errores de red
+                println("Error de red o excepción: ${t.message}")
+            }
+        })
     }
 }
 
@@ -121,10 +139,10 @@ fun LoginScreenPreview() {
     SupercerebrosTheme {
         LoginScreen(
             navController = navController,
-            onLoginClick = { _, _ -> },
-           // onBackClick = {},
-            onRegisterClick = {} // Añadir callback para la acción de registro
+            onLoginClick = { email, password ->
+                onLoginClick(navController, email, password)
+            },
+            onRegisterClick = {}
         )
     }
 }
-
