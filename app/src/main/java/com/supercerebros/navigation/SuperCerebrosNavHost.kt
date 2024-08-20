@@ -1,6 +1,7 @@
 package com.supercerebros.navigation
 
 import SplashScreen
+import TutorMenuScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -11,7 +12,6 @@ import com.supercerebros.screens.LoginScreen
 import com.supercerebros.screens.PasswordRecoveryScreen
 import com.supercerebros.screens.RegistrationScreen
 import com.supercerebros.screens.SuccessScreen
-import com.supercerebros.screens.TutorMenuScreen
 
 @Composable
 fun SuperCerebrosNavHost(
