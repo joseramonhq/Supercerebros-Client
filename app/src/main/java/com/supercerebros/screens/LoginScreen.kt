@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.supercerebros.MyApplication
 import com.supercerebros.R
 import com.supercerebros.api.RetrofitInstance
 import com.supercerebros.data.LoginRequest
@@ -114,18 +115,22 @@ fun onLoginClick(navController: NavController, email: String, password: String) 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    println(loginResponse?.role)
-                    // Maneja el éxito
-                    println("Login exitoso, UserID: ${loginResponse?.userId}")
-                    navController.navigate("tutorMenu") // Navega a la pantalla del menú del tutor
+                    val app = navController.context.applicationContext as MyApplication
+
+                    loginResponse?.user?.let {
+                        println("Usuario recibido: $it")
+                        app.login(it)
+                    } ?: run {
+                        println("El usuario recibido es nulo")
+                    }
+
+                    navController.navigate("tutorMenu")
                 } else {
-                    // Maneja errores en la respuesta
                     println("Error en el login: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                // Maneja la falla en la comunicación, como errores de red
                 println("Error de red o excepción: ${t.message}")
             }
         })

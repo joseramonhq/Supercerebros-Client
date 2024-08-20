@@ -376,7 +376,12 @@ fun RegistrationScreen(
                                 medicalInfo = null,
                                 parentId = null,
                                 childrenIds = null,
-                                fileIds = null
+                                fileIds = null,
+                                id = null,
+                                registrationDate = null,
+                                createdAt = null,
+                                updatedAt = null,
+
                             )
                             registerUser(user) {
                                 // Acción a realizar cuando el registro es exitoso

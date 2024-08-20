@@ -63,3 +63,5 @@ C
 ,app/src/main/java/com/supercerebros/dfs.java,f\a\fa6172393c6b4695c9afdbc66ed243786dc44c18
 f
 6app/src/main/java/com/supercerebros/MyApplication.java,b\2\b29f60c041900a150159bd62846b01142341a0a5
+t
+Dapp/src/main/java/com/supercerebros/data/ChildRegistrationRequest.kt,8\3\834f52fed997c1b29db3fef626ea4c4c1e7c4fa4
