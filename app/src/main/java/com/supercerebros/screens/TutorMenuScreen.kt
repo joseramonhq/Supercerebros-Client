@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.supercerebros.MyApplication
+import com.supercerebros.models.UserOrChild
 import com.supercerebros.ui.theme.SupercerebrosTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,12 +35,23 @@ fun TutorMenuScreen(
     onLogoutClick: () -> Unit,
     onBackClick: () -> Unit
 ) {
-    // Acceder a la instancia de MyApplication
     val context = LocalContext.current
     val app = context.applicationContext as MyApplication
 
-    // Obtener el usuario actual
-    val currentUser = app.currentUser
+    // Obtener el usuario actual como UserOrChild.User
+    val currentUser = app.currentUser as? UserOrChild.User
+
+    // Manejar el caso cuando el usuario no esté autenticado o no sea un Tutor
+    if (currentUser == null) {
+        Text(
+            text = "Error: Usuario no autenticado",
+            fontSize = 20.sp,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+        return
+    }
+
+    val userName = currentUser.firstName
 
     Scaffold(
         topBar = {
@@ -66,7 +78,7 @@ fun TutorMenuScreen(
         ) {
             // Mostrar el nombre del usuario actual
             Text(
-                text = "Bienvenido, ${currentUser?.firstName ?: "Usuario"}",
+                text = "Bienvenido, $userName",
                 fontSize = 20.sp,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -130,6 +142,7 @@ fun TutorMenuScreen(
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

@@ -364,6 +364,8 @@ fun RegistrationScreen(
                             )
                         ) {
                             val user = User(
+                                userOrChildType = "User",
+                                id = null,
                                 role = "Tutor",
                                 firstName = name,
                                 lastName = lastName,
@@ -372,15 +374,11 @@ fun RegistrationScreen(
                                 phone = phoneNumber,
                                 birthDate = birthDate,
                                 dni = dni,
-                                gender = null,
-                                medicalInfo = null,
-                                parentId = null,
                                 childrenIds = null,
-                                fileIds = null,
-                                id = null,
                                 registrationDate = null,
                                 createdAt = null,
                                 updatedAt = null,
+                                active = true
 
                             )
                             registerUser(user) {
@@ -479,8 +477,8 @@ fun fillFormForTesting(
     val serverFormattedBirthDate = convertToServerDateFormat(testBirthDate) // Fecha en formato esperado por el servidor
     val testPhoneNumber = "+34912345678" // Número de teléfono válido
     val testDNI = "20199257J" // DNI válido
-    val testEmail = "juan.perez@example.com" // Correo electrónico válido
-    val testPassword = "P@ssw0rd123" // Contraseña que pasa todas las validaciones
+    val testEmail = "a@a.a" // Correo electrónico válido
+    val testPassword = "12345Aa@" // Contraseña que pasa todas las validaciones
     val testConfirmPassword = testPassword // Confirmación que coincide con la contraseña
 
     setName(testName)

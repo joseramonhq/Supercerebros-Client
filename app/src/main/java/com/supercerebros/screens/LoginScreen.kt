@@ -23,11 +23,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import com.supercerebros.MyApplication
 import com.supercerebros.R
 import com.supercerebros.api.RetrofitInstance
 import com.supercerebros.data.LoginRequest
 import com.supercerebros.data.LoginResponse
+import com.supercerebros.models.Child
+import com.supercerebros.models.User
+
 import com.supercerebros.ui.theme.SupercerebrosTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -97,7 +101,7 @@ fun LoginScreen(
             )
 
             Button(
-                onClick = { onLoginClick(navController,email.value, password.value) },
+                onClick = { onLoginClick(navController, email.value, password.value) },
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 Text(text = "Iniciar Sesión")
@@ -117,14 +121,28 @@ fun onLoginClick(navController: NavController, email: String, password: String) 
                     val loginResponse = response.body()
                     val app = navController.context.applicationContext as MyApplication
 
-                    loginResponse?.user?.let {
-                        println("Usuario recibido: $it")
-                        app.login(it)
+                    loginResponse?.let {
+                        println("Valor de userOrChildType: ${it.userOrChildType}")
+                        when (it.userOrChildType) {
+                            "User" -> {
+                                val user = Gson().fromJson(Gson().toJson(it.user), User::class.java)
+                                println("Usuario recibido: ${user.firstName}")
+                                app.login(user)  // Almacena el objeto `User` en la aplicación
+                                navController.navigate("tutorMenu")
+                            }
+                            "Child" -> {
+                                val child = Gson().fromJson(Gson().toJson(it.user), Child::class.java)
+                                println("Niño recibido: ${child.firstName}")
+                                app.login(child)  // Almacena el objeto `Child` en la aplicación
+                                navController.navigate("childMenu")
+                            }
+                            else -> {
+                                println("Tipo desconocido de usuario")
+                            }
+                        }
                     } ?: run {
-                        println("El usuario recibido es nulo")
+                        println("La respuesta del servidor está vacía")
                     }
-
-                    navController.navigate("tutorMenu")
                 } else {
                     println("Error en el login: ${response.errorBody()?.string()}")
                 }
@@ -136,6 +154,8 @@ fun onLoginClick(navController: NavController, email: String, password: String) 
         })
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
@@ -151,3 +171,4 @@ fun LoginScreenPreview() {
         )
     }
 }
+

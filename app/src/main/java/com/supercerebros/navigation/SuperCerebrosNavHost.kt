@@ -87,7 +87,7 @@ fun SuperCerebrosNavHost(
 
         composable("registerChild") {
             ChildRegistrationScreen(
-                onRegisterClick = { name, lastName, birthDate, gender, dni, medicalInfo ->
+                onRegisterClick = { name, lastName, birthDate, gender, email, password, medicalInfo,active ->
                     // Lógica para registrar al niño
                 },
                 onBackClick = { navController.popBackStack() }

@@ -1,10 +1,18 @@
 package com.supercerebros.data
 
-import com.supercerebros.models.User
+import com.google.gson.annotations.SerializedName
+
+/*
+import com.google.gson.annotations.SerializedName
+import com.supercerebros.models.UserOrChild
 
 // Datos para la respuesta
 data class LoginResponse(
     val success: Boolean,
-    val user: User?  // El servidor devuelve el objeto User completo en caso de éxito
+    @SerializedName("user")
+    val userOrChild: UserOrChild?  // Mapea "user" o "child" a UserOrChild
+)*/
+data class LoginResponse(
+    @SerializedName("userOrChildType") val userOrChildType: String,
+    @SerializedName("user") val user: Any
 )
-

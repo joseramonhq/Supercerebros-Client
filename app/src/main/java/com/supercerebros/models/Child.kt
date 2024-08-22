@@ -1,23 +1,21 @@
 package com.supercerebros.models
+
 import com.google.gson.annotations.SerializedName
 
-
-
-data class User(
+data class Child(
     @SerializedName("_id")
     val id: String?,  // Esto mapea el campo _id del JSON al campo id en Kotlin
-    val role: String,
     val firstName: String,
-    val birthDate: String,
     val lastName: String,
-    val email: String,
-    val password: String?,
-    val phone: String?,
-    val dni: String?,
-    val childrenIds: List<String>?,  // IDs de los hijos asociados a este usuario // IDs de los archivos asociados al usuario
+    val birthDate: String?,
+    val gender: String?,
+    val medicalInfo: String?,
+    val parentId: String?,    // ID del tutor asociado a este niño
+    val fileIds: List<String>?,  // IDs de los archivos asociados al niño
     val registrationDate: String?,
     val createdAt: String?,
     val updatedAt: String?,
     val active: Boolean,
     val userOrChildType: String
 )
+
