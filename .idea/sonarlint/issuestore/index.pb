@@ -91,3 +91,5 @@ w
 G.idea/sonarlint/issuestore/7/a/7a5ff7376fd3bff3b2388d60710b5f105ea0d4e5,0\2\02479406ff607975cefebaece7cd71838f514c75
 Å
 Q.idea/sonarlint/securityhotspotstore/2/e/2e1774eabf0547b08858e8eb8e6455ab4fbbfd36,a\b\abf26683b4b0687a39c123294c670290a919c7ae
+r
+Bapp/src/main/java/com/supercerebros/controllers/ChildController.kt,0\5\0564c6e8a0f61bcc2c226fad3bef70b5185736c0

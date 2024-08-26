@@ -3,15 +3,15 @@ package com.supercerebros
 import android.app.Application
 import com.supercerebros.models.Child
 import com.supercerebros.models.User
-import com.supercerebros.models.UserOrChild
 
 class MyApplication : Application() {
 
-    var currentUser: UserOrChild? = null
+    var currentUser: User? = null
+    var currentChild: Child? = null
 
     // Función de login unificada que maneja tanto User como Child
     fun login(child: Child) {
-        this.currentUser
+        this.currentChild
     }
     fun login(user: User) {
         this.currentUser
@@ -19,27 +19,30 @@ class MyApplication : Application() {
 
     fun logout() {
         this.currentUser = null
+        this.currentChild = null
     }
 
     fun isLoggedIn(): Boolean {
-        return currentUser != null
+        return currentUser != null || currentChild != null
     }
+
 
     // Funciones auxiliares para obtener el tipo específico de usuario
     fun getUser(): User? {
-        return currentUser as? User
+        return currentUser
     }
 
     fun getChild(): Child? {
-        return currentUser as Child
+        return currentChild
     }
 
     // Función para obtener el rol del usuario actual
     fun getRole(): String? {
-        return when (currentUser) {
-            is UserOrChild.User -> "Tutor"
-            is UserOrChild.Child -> "Child"
+        return when {
+            currentUser != null -> currentUser?.role
+            currentChild != null -> "Child"
             else -> null
         }
     }
+
 }

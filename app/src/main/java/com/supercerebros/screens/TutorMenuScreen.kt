@@ -1,3 +1,4 @@
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.supercerebros.MyApplication
-import com.supercerebros.models.UserOrChild
 import com.supercerebros.ui.theme.SupercerebrosTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,7 +39,7 @@ fun TutorMenuScreen(
     val app = context.applicationContext as MyApplication
 
     // Obtener el usuario actual como UserOrChild.User
-    val currentUser = app.currentUser as? UserOrChild.User
+    val currentUser = app.currentUser
 
     // Manejar el caso cuando el usuario no esté autenticado o no sea un Tutor
     if (currentUser == null) {
