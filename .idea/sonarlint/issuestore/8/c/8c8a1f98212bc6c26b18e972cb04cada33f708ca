@@ -1,4 +1,5 @@
 
-‹kotlin:S107¦"GThis function has 8 parameters, which is greater than the 7 authorized.(µòü]8ÕÆ™2J$00e705f6-035c-442e-b106-1bdc7f32df47
-‘kotlin:S107Ğ"GThis function has 8 parameters, which is greater than the 7 authorized.(Ö…‰§ıÿÿÿÿ8ÕÆ™2J$3c8071b4-e441-420e-9430-8130f5b855f5
-‘kotlin:S1192’"KDefine a constant instead of duplicating this literal "dd/MM/yyyy" 3 times.(ËÃÑ8óÆ™2J$932cd443-b478-4d94-9caa-062f0a6526d0
+‹kotlin:S107´"GThis function has 8 parameters, which is greater than the 7 authorized.(µòü]8ìû«‚™2J$71db1b69-003e-4318-93ae-6a477af25b52
+‘kotlin:S107Ş"GThis function has 8 parameters, which is greater than the 7 authorized.(Ö…‰§ıÿÿÿÿ8ìû«‚™2J$f85f6b3a-b738-4fc8-8a62-6c752b8f7688
+‘kotlin:S1192 "KDefine a constant instead of duplicating this literal "dd/MM/yyyy" 3 times.(ËÃÑ8úû«‚™2J$13dda9f9-dd81-45a5-aa5c-896b93e7b97f
+œkotlin:S3776H"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(à£¯©ÿÿÿÿÿ8Ë½¯‚™2J$c174fe81-28c3-463f-bc7b-d8a42fa2a3e5

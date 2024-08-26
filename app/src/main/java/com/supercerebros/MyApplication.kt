@@ -10,11 +10,14 @@ class MyApplication : Application() {
     var currentChild: Child? = null
 
     // Función de login unificada que maneja tanto User como Child
-    fun login(child: Child) {
-        this.currentChild
-    }
     fun login(user: User) {
-        this.currentUser
+        this.currentUser = user
+        this.currentChild = null // Asegúrate de que no haya un Child activo
+    }
+
+    fun login(child: Child) {
+        this.currentUser = null // Asegúrate de que no haya un User activo
+        this.currentChild = child
     }
 
     fun logout() {
@@ -25,7 +28,6 @@ class MyApplication : Application() {
     fun isLoggedIn(): Boolean {
         return currentUser != null || currentChild != null
     }
-
 
     // Funciones auxiliares para obtener el tipo específico de usuario
     fun getUser(): User? {
@@ -44,5 +46,4 @@ class MyApplication : Application() {
             else -> null
         }
     }
-
 }

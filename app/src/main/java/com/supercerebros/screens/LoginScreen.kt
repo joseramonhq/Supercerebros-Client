@@ -122,23 +122,29 @@ fun onLoginClick(navController: NavController, email: String, password: String) 
                     val app = navController.context.applicationContext as MyApplication
 
                     loginResponse?.let {
-                        println("Valor de userOrChildType: ${it.userOrChildType}")
-                        when (it.userOrChildType) {
-                            "User" -> {
-                                val user = Gson().fromJson(Gson().toJson(it.user), User::class.java)
-                                println("Usuario recibido: ${user.firstName}")
-                                app.login(user)  // Almacena el objeto `User` en la aplicación
-                                navController.navigate("tutorMenu")
+                        if (it.success) {
+                            println("Valor de userOrChildType: ${it.userOrChildType}")
+                            when (it.userOrChildType) {
+                                "User" -> {
+                                    // Deserializar como User
+                                    val user = Gson().fromJson(Gson().toJson(it.user), User::class.java)
+                                    println("Usuario recibido: ${user.firstName}")
+                                    app.login(user)  // Almacena el objeto User en MyApplication
+                                    navController.navigate("tutorMenu")  // Navegar al menú del tutor
+                                }
+                                "Child" -> {
+                                    // Deserializar como Child
+                                    val child = Gson().fromJson(Gson().toJson(it.user), Child::class.java)
+                                    println("Niño recibido: ${child.fullName}")
+                                    app.login(child)  // Almacena el objeto Child en MyApplication
+                                    navController.navigate("underConstruction")  // Navegar al menú del niño
+                                }
+                                else -> {
+                                    println("Tipo desconocido de usuario")
+                                }
                             }
-                            "Child" -> {
-                                val child = Gson().fromJson(Gson().toJson(it.user), Child::class.java)
-                                println("Niño recibido: ${child.firstName}")
-                                app.login(child)  // Almacena el objeto `Child` en la aplicación
-                                navController.navigate("childMenu")
-                            }
-                            else -> {
-                                println("Tipo desconocido de usuario")
-                            }
+                        } else {
+                            println("Login fallido: ${response.errorBody()?.string()}")
                         }
                     } ?: run {
                         println("La respuesta del servidor está vacía")

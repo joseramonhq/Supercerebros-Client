@@ -11,7 +11,7 @@ import com.supercerebros.screens.ChildRegistrationScreen
 import com.supercerebros.screens.LoginScreen
 import com.supercerebros.screens.PasswordRecoveryScreen
 import com.supercerebros.screens.RegistrationScreen
-import com.supercerebros.screens.SuccessScreen
+import com.supercerebros.screens.registerChild
 
 @Composable
 fun SuperCerebrosNavHost(
@@ -87,14 +87,17 @@ fun SuperCerebrosNavHost(
 
         composable("registerChild") {
             ChildRegistrationScreen(
-                onRegisterClick = { name, lastName, birthDate, gender, email, password, medicalInfo,active ->
-                    // Lógica para registrar al niño
+                onRegisterClick = { child ->
+                    registerChild(
+                        child = child,
+                        onSuccess = {
+                            // Acción a realizar cuando el registro es exitoso
+                            navController.navigate("successScreen")
+                        }
+                    )
                 },
                 onBackClick = { navController.popBackStack() }
             )
-        }
-        composable("successScreen") {
-            SuccessScreen(navController = navController)
         }
     }
 }

@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -71,7 +73,7 @@ fun RegistrationScreen(
     navController: NavHostController? = null,
     onBackClick: (() -> Unit)? = null
 ) {
-    var name by remember { mutableStateOf("") }
+    var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var birthDate by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
@@ -81,12 +83,13 @@ fun RegistrationScreen(
     var confirmPassword by remember { mutableStateOf("") }
     var showDatePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
+    var isLoading by remember { mutableStateOf(false) }  // Estado de carga
     val selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDate(it)
     } ?: ""
 
     fillFormForTesting(
-        setName = { name = it },
+        setName = { firstName = it },
         setLastName = { lastName = it },
         setBirthDate = { birthDate = it },
         setPhoneNumber = { phoneNumber = it },
@@ -97,7 +100,7 @@ fun RegistrationScreen(
     )
 
     // Estados de error
-    var nameError by remember { mutableStateOf<String?>(null) }
+    var firstNameError by remember { mutableStateOf<String?>(null) }
     var lastNameError by remember { mutableStateOf<String?>(null) }
     var birthDateError by remember { mutableStateOf<String?>(null) }
     var phoneNumberError by remember { mutableStateOf<String?>(null) }
@@ -136,17 +139,17 @@ fun RegistrationScreen(
             item {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     OutlinedTextField(
-                        value = name,
+                        value = firstName,
                         onValueChange = {
-                            name = it
-                            nameError = validateName(it)
+                            firstName = it
+                            firstNameError = validateName(it)
                         },
                         label = { Text("Nombre") },
-                        isError = nameError != null,
+                        isError = firstNameError != null,
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
-                    nameError?.let {
+                    firstNameError?.let {
                         Text(
                             text = it,
                             style = errorTextStyle,
@@ -358,16 +361,18 @@ fun RegistrationScreen(
                 Button(
                     onClick = {
                         if (validateForm(
-                                nameError, lastNameError, birthDateError,
+                                firstNameError, lastNameError, birthDateError,
                                 phoneNumberError, dniError, emailError,
                                 passwordError, confirmPasswordError
                             )
                         ) {
+                            isLoading = true  // Iniciar la animación de carga
+
                             val user = User(
                                 userOrChildType = "User",
                                 id = null,
                                 role = "Tutor",
-                                firstName = name,
+                                firstName = firstName,
                                 lastName = lastName,
                                 email = email,
                                 password = password,
@@ -379,17 +384,26 @@ fun RegistrationScreen(
                                 createdAt = null,
                                 updatedAt = null,
                                 active = true
-
                             )
+
                             registerUser(user) {
+                                isLoading = false  // Detener la animación de carga
                                 // Acción a realizar cuando el registro es exitoso
                                 navController?.navigate("successScreen")
                             }
                         }
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading  // Deshabilitar el botón mientras se carga
                 ) {
-                    Text("Registrarse")
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = MaterialTheme.colorScheme.onPrimary // Cambiar según tu tema
+                        )
+                    } else {
+                        Text("Registrarse")
+                    }
                 }
             }
 

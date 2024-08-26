@@ -13,6 +13,9 @@ data class LoginResponse(
     val userOrChild: UserOrChild?  // Mapea "user" o "child" a UserOrChild
 )*/
 data class LoginResponse(
+    @SerializedName("success") val success: Boolean,
     @SerializedName("userOrChildType") val userOrChildType: String,
     @SerializedName("user") val user: Any
-)
+) {
+
+}

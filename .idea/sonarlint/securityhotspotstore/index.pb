@@ -66,8 +66,6 @@ Fapp/src/main/java/com/supercerebros/screens/UnderConstructionScreen.kt,3\c\3c0
 d
 4app/src/main/java/com/supercerebros/MyApplication.kt,a\5\a5889514561ad56ea23c73f934397b3726ec23f8
 i
-9app/src/main/java/com/supercerebros/models/UserOrChild.kt,9\e\9ed7ed862ae6d588e874b1dea07ac447c8f65fa3
-i
 9app/src/main/java/com/supercerebros/data/ChildResponse.kt,2\e\2e1774eabf0547b08858e8eb8e6455ab4fbbfd36
 q
 Aapp/src/main/java/com/supercerebros/controllers/UserController.kt,6\5\65a934dfac7e253d9b505dc1ea2a77a8eb7e976b
