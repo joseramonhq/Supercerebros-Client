@@ -72,10 +72,6 @@ Aapp/src/main/java/com/supercerebros/controllers/UserController.kt,6\5\65a934df
 Å
 Q.idea/sonarlint/securityhotspotstore/3/c/3c02e72d3fd5c05a8a454c6a85aee89f54cbaa42,0\6\0625a89723a212ee235655610e0942af2454841c
 w
-G.idea/sonarlint/issuestore/9/e/9ed7ed862ae6d588e874b1dea07ac447c8f65fa3,8\d\8d67ab3fff48f4a4dc9a0035460a39b347ceca2a
-Å
-Q.idea/sonarlint/securityhotspotstore/9/e/9ed7ed862ae6d588e874b1dea07ac447c8f65fa3,e\5\e537808013e51d3ef99bab8308ab4010a45564f7
-w
 G.idea/sonarlint/issuestore/2/e/2e1774eabf0547b08858e8eb8e6455ab4fbbfd36,d\2\d28ac21f9d6a6af4a915163a4d89c15f84ce6cf4
 Å
 Q.idea/sonarlint/securityhotspotstore/a/5/a5889514561ad56ea23c73f934397b3726ec23f8,1\6\16c8c773672761c9ca4fdedd2e460cb4a9e86c06

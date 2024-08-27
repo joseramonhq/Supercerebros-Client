@@ -7,7 +7,8 @@ data class ChildResponse(
     val birthDate: String?,  // Fecha de nacimiento (puede ser nulo)
     val gender: String,
     val medicalInfo: String?,
-    val email: String,    // Correo electrónico del usuario
+    val email: String,
+    val password: String,// Correo electrónico del usuario
     val parentId: String,   // ID del tutor (solo si el usuario es un Child)
     val fileIds: List<String>?, // Lista de IDs de archivos asociados (puede ser nulo)
     val active: Boolean

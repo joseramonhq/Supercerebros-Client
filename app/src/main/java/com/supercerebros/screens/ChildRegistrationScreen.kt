@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +19,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,8 +37,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -66,15 +66,14 @@ fun ChildRegistrationScreen(
     // Obtener el usuario actual registrado en la aplicación
     val currentUser = app.currentUser
 
-    // Definición de variables de estado para los campos de entrada
-    val fullName = remember { mutableStateOf("") }  // Nombre completo del niño
-    val birthDate = remember { mutableStateOf("") }  // Fecha de nacimiento del niño
+    // Definición de variables de estado para los campos de entrada, inicializados con valores predeterminados
+    var fullName by remember { mutableStateOf("José Pérez") }  // Nombre completo del niño
     val genderOptions = listOf("Niño", "Niña", "No contesto")  // Opciones de género
     var selectedGender by remember { mutableStateOf(genderOptions[0]) }  // Género seleccionado
-    val email = remember { mutableStateOf("") }  // Email del niño
-    val password = remember { mutableStateOf("") }  // Contraseña del niño
-    val medicalInfo = remember { mutableStateOf("") }  // Información médica del niño
-    var isLoading by remember { mutableStateOf(false) }  // Estado de carga para mostrar la animación de progreso
+    var email by remember { mutableStateOf("jose@gmail.com") }  // Email del niño
+    var password by remember { mutableStateOf("12345Aa@") }  // Contraseña del niño
+    var medicalInfo by remember { mutableStateOf("Sin alergias conocidas") }  // Información médica del niño
+   // var isLoading by remember { mutableStateOf(false) }  // Estado de carga para mostrar la animación de progreso
 
     Scaffold(
         topBar = {
@@ -111,11 +110,12 @@ fun ChildRegistrationScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             // Campo de entrada para el nombre completo
             item {
                 OutlinedTextField(
-                    value = fullName.value,
-                    onValueChange = { fullName.value = it },
+                    value = fullName,
+                    onValueChange = { fullName = it },
                     label = { Text("Nombre y apellidos") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
@@ -123,19 +123,31 @@ fun ChildRegistrationScreen(
             }
             // Campo de entrada para la fecha de nacimiento
             item {
+                var birthDateState by remember { mutableStateOf(TextFieldValue("")) }
+
                 OutlinedTextField(
-                    value = birthDate.value,
+                    value = birthDateState,
                     placeholder = { Text("dd/mm/yyyy") },  // Texto de marcador de posición
                     onValueChange = { input ->
-                        // Formatear la entrada para ajustarse al formato de fecha
-                        val digits = input.filter { it.isDigit() }.take(8)
+                        // Filtrar solo dígitos y limitar la entrada a 8 dígitos
+                        val digits = input.text.filter { it.isDigit() }.take(8)
+
+                        // Formatear la fecha como "dd/MM/yyyy"
                         val formattedDate = when (digits.length) {
                             in 1..2 -> digits
                             in 3..4 -> "${digits.substring(0, 2)}/${digits.substring(2)}"
                             in 5..8 -> "${digits.substring(0, 2)}/${digits.substring(2, 4)}/${digits.substring(4)}"
                             else -> digits
                         }
-                        birthDate.value = formattedDate
+
+                        // Calcular la nueva posición del cursor
+                        val cursorPosition = formattedDate.length
+
+                        // Actualizar el estado con el nuevo texto y posición del cursor
+                        birthDateState = TextFieldValue(
+                            text = formattedDate,
+                            selection = TextRange(cursorPosition)
+                        )
                     },
                     label = { Text("Fecha de Nacimiento") },
                     modifier = Modifier
@@ -197,8 +209,8 @@ fun ChildRegistrationScreen(
             // Campo de entrada para el correo electrónico
             item {
                 OutlinedTextField(
-                    value = email.value,
-                    onValueChange = { email.value = it },
+                    value = email,
+                    onValueChange = { email = it },
                     label = { Text("Email") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
@@ -207,8 +219,8 @@ fun ChildRegistrationScreen(
             // Campo de entrada para la contraseña
             item {
                 OutlinedTextField(
-                    value = password.value,
-                    onValueChange = { password.value = it },
+                    value = password,
+                    onValueChange = { password = it },
                     label = { Text("Contraseña") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
@@ -219,8 +231,8 @@ fun ChildRegistrationScreen(
             // Campo de entrada para la información médica
             item {
                 OutlinedTextField(
-                    value = medicalInfo.value,
-                    onValueChange = { medicalInfo.value = it },
+                    value = medicalInfo,
+                    onValueChange = { medicalInfo = it },
                     label = { Text("Información Médica") },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -233,18 +245,18 @@ fun ChildRegistrationScreen(
             item {
                 Button(
                     onClick = {
-                        isLoading = true  // Iniciar la animación de carga
+                       // isLoading = true  // Iniciar la animación de carga
                         val child = Child(
                             userOrChildType = "Child",
                             id = null,  // El ID será asignado por el servidor
-                            fullName = fullName.value,
-                            birthDate = birthDate.value,
+                            fullName = fullName,
+                            birthDate = "2015-09-15",  // Asegúrate de que está en el formato correcto "yyyy-MM-dd"
                             gender = selectedGender,
-                            email = email.value,
-                            password = password.value,
-                            medicalInfo = medicalInfo.value,
-                            fileIds = null,
-                            parentId = currentUser?.id,  // Asociar el niño con el ID del tutor actual
+                            email = email,
+                            password = password,
+                            medicalInfo = medicalInfo,  // Enviar una cadena vacía si no hay información médica
+                            fileIds = emptyList(),  // Enviar una lista vacía en lugar de null
+                            parentId = currentUser?.id ?: "",  // Enviar una cadena vacía si no hay parentId
                             role = "Child",
                             registrationDate = null,
                             createdAt = null,
@@ -255,18 +267,11 @@ fun ChildRegistrationScreen(
                         onRegisterClick(child)
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = !isLoading  // Deshabilitar el botón mientras se carga
+                   // enabled = !isLoading  // Deshabilitar el botón mientras se carga
                 ) {
-                    // Mostrar animación de progreso si el estado de carga es verdadero
-                    if (isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    } else {
-                        Text("Registrar Niño")
-                    }
+                    Text("Registrar Niño")
                 }
+
             }
         }
     }
@@ -285,7 +290,7 @@ fun registerChild(child: Child, onSuccess: () -> Unit) {
                 if (registeredChild != null) {
                     // Actualizar la lista de childrenIds del tutor actual
                     val currentChildrenIds = app.currentUser?.childrenIds?.toMutableList() ?: mutableListOf()
-                    registeredChild.id?.let { currentChildrenIds.add(it) }
+                    registeredChild.id.let { currentChildrenIds.add(it) }
                     app.currentUser = app.currentUser?.copy(childrenIds = currentChildrenIds)
                     onSuccess()  // Llamar al callback de éxito
                 } else {
