@@ -1,6 +1,3 @@
-import org.gradle.kotlin.dsl.dependencies
-
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -65,8 +62,6 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.compose.material.dialogs.datetime)
-
-
 
     // Retrofit para conexiones HTTP
     implementation(libs.retrofit)

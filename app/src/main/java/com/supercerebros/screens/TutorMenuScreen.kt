@@ -19,6 +19,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.supercerebros.MyApplication
 
 import com.supercerebros.ui.theme.SupercerebrosTheme
@@ -26,6 +28,7 @@ import com.supercerebros.ui.theme.SupercerebrosTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TutorMenuScreen(
+    navController: NavController,
     onRegisterChildClick: () -> Unit,
     onGlobalActivitiesClick: () -> Unit,
     onCalendarClick: () -> Unit,
@@ -157,6 +160,7 @@ fun TutorMenuScreenPreview() {
             onSupportAndHelpClick = {},
             onLogoutClick = {},
             onBackClick = {},
+            navController = rememberNavController()
         )
     }
 }

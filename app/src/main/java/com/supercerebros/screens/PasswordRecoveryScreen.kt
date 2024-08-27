@@ -25,11 +25,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.supercerebros.ui.theme.SupercerebrosTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordRecoveryScreen(
+    navController: NavController,
     onSendCodeClick: (String) -> Unit,
     onVerifyCodeClick: (String) -> Unit,
     onBackClick: () -> Unit
@@ -117,6 +120,7 @@ fun PasswordRecoveryScreen(
 fun PasswordRecoveryScreenPreview() {
     SupercerebrosTheme {
         PasswordRecoveryScreen(
+            navController = rememberNavController(),
             onSendCodeClick = {},
             onVerifyCodeClick = {},
             onBackClick = {}

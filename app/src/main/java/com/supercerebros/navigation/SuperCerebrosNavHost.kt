@@ -24,6 +24,7 @@ fun SuperCerebrosNavHost(
         modifier = modifier
     ) {
         composable("splashscreen"){
+
             SplashScreen()
         }
 
@@ -41,12 +42,14 @@ fun SuperCerebrosNavHost(
 
         composable("register") {
             RegistrationScreen(
+                navController = navController,
                 onBackClick = { navController.popBackStack() },
             )
         }
 
         composable("passwordRecovery") {
             PasswordRecoveryScreen(
+                navController=navController,
                 onSendCodeClick = { email ->
                     // Lógica para enviar el código de recuperación
                 },
@@ -57,7 +60,9 @@ fun SuperCerebrosNavHost(
 
         composable("tutorMenu") {
             TutorMenuScreen(
+                navController= navController,
                 onRegisterChildClick = {
+
                     navController.navigate("registerChild")
                 },
                 onGlobalActivitiesClick = {
@@ -89,6 +94,7 @@ fun SuperCerebrosNavHost(
             ChildRegistrationScreen(
                 onRegisterClick = { child ->
                     registerChild(
+                        navController=navController,
                         child = child,
                         onSuccess = {
                             // Acción a realizar cuando el registro es exitoso
@@ -99,6 +105,7 @@ fun SuperCerebrosNavHost(
                 onBackClick = { navController.popBackStack() }
             )
         }
+
     }
 }
 

@@ -56,7 +56,6 @@ import retrofit2.Response
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChildRegistrationScreen(
-    navController: NavHostController? = null,
     onRegisterClick: (Child) -> Unit,  // Callback para manejar el registro del niño
     onBackClick: () -> Unit  // Callback para manejar la acción de retroceso
 ) {
@@ -265,6 +264,7 @@ fun ChildRegistrationScreen(
                         )
                         // Llamar al callback para registrar al niño
                         onRegisterClick(child)
+
                     },
                     modifier = Modifier.fillMaxWidth(),
                    // enabled = !isLoading  // Deshabilitar el botón mientras se carga
@@ -278,7 +278,7 @@ fun ChildRegistrationScreen(
 }
 
 // Función para registrar al niño en el servidor
-fun registerChild(child: Child, onSuccess: () -> Unit) {
+fun registerChild( navController: NavHostController,child: Child, onSuccess: () -> Unit) {
     val apiService = RetrofitInstance.apiService
     val app = MyApplication()
 
@@ -293,6 +293,7 @@ fun registerChild(child: Child, onSuccess: () -> Unit) {
                     registeredChild.id.let { currentChildrenIds.add(it) }
                     app.currentUser = app.currentUser?.copy(childrenIds = currentChildrenIds)
                     onSuccess()  // Llamar al callback de éxito
+                    navController.navigate("successScreen")
                 } else {
                     Log.e(
                         "ChildRegistrationScreen",
@@ -313,6 +314,7 @@ fun registerChild(child: Child, onSuccess: () -> Unit) {
 fun ChildRegistrationScreenPreview() {
     SupercerebrosTheme {
         ChildRegistrationScreen(
+            // Proporcionar NavHostController para la vista previa
             onRegisterClick = {},
             onBackClick = {}
         )
