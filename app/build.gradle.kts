@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.compose.material.dialogs.datetime)
 
+
+
     // Retrofit para conexiones HTTP
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
@@ -82,4 +84,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }

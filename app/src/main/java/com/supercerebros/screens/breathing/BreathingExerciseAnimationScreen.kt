@@ -1,206 +1,208 @@
-
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
+package com.supercerebros.screens.breathing
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.supercerebros.ui.theme.SupercerebrosTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun BreathingExerciseAnimationScreen(
-    inhaleDuration: Int,
-    holdBreathDuration: Int,
-    exhaleDuration: Int,
-    pauseDuration: Int,
-    totalDuration: Int, // Duración total del ejercicio en minutos
-    onFinish: () -> Unit // Callback para cuando el ejercicio termine
+    navController: NavController,       // Añade NavController como parámetro
+    fillDurationMillis: Int = 6000,    // Duración para llenar en milisegundos
+    fillPauseMillis: Int = 2000,       // Pausa después de llenarse
+    emptyDurationMillis: Int = 4000,   // Duración para vaciar en milisegundos
+    emptyPauseMillis: Int = 3000,      // Pausa después de vaciarse
+    repeatCount: Int = 3               // Número de ciclos de llenar/vaciar
 ) {
-    var currentPhase by remember { mutableStateOf(BreathingPhase.Inhale) }
-    var timeRemaining by remember { mutableStateOf(inhaleDuration) }
-    var animationProgress by remember { mutableStateOf(0f) }
-    var isPaused by remember { mutableStateOf(false) }
-    var showFinishedMessage by remember { mutableStateOf(false) }
-    var cyclesCompleted by remember { mutableStateOf(0) }
+    var countdown by remember { mutableStateOf(3) }
+    var isCountdownFinished by remember { mutableStateOf(false) }
+    var startAnimation by remember { mutableStateOf(false) }
+    var isFilling by remember { mutableStateOf(true) }
+    var cycleCount by remember { mutableStateOf(0) }
+    var showText by remember { mutableStateOf(false) }
+    var currentPhase by remember { mutableStateOf("Inhalar") }
+    var elapsedTime by remember { mutableStateOf(0) }
+    val coroutineScope = rememberCoroutineScope()
 
-    // Calcula el progreso de la animación en función de la fase y el tiempo restante
-    val animatedProgress by animateFloatAsState(
-        targetValue = when (currentPhase) {
-            BreathingPhase.Inhale -> animationProgress
-            BreathingPhase.Exhale -> 1 - animationProgress
-            else -> if (currentPhase == BreathingPhase.Hold) 1f else 0f
+    // Iniciar la cuenta atrás
+    LaunchedEffect(Unit) {
+        while (countdown > 0) {
+            delay(1000L)
+            countdown--
+        }
+        isCountdownFinished = true
+        startAnimation = true
+    }
+
+    // Determina el color basado en la fase actual
+    val phaseColor = when (currentPhase) {
+        "Inhalar" -> Color(0xFFB2EBF2) // Light Blue
+        "Mantener" -> Color(0xFF81C784) // Light Green
+        "Exhalar" -> Color(0xFFFFCC80) // Light Orange
+        "Pausa" -> Color(0xFFB39DDB) // Light Purple
+        else -> Color.Transparent
+    }
+
+    // Animación de la altura del "agua" en el rectángulo con una interpolación suave
+    val animatedHeight by animateDpAsState(
+        targetValue = when {
+            startAnimation && isFilling -> 500.dp // Llenar
+            startAnimation && !isFilling -> 0.dp // Vaciar
+            else -> 0.dp
         },
-        animationSpec = tween(durationMillis = when (currentPhase) {
-            BreathingPhase.Inhale -> inhaleDuration * 1000
-            BreathingPhase.Exhale -> exhaleDuration * 1000
-            else -> 0
-        })
-    )
-
-    // Efecto lanzado para controlar el temporizador y la progresión de las fases
-    LaunchedEffect(key1 = currentPhase, key2 = isPaused) {
-        if (!isPaused) {
-            while (timeRemaining > 0) {
-                delay(1000L)
-                timeRemaining--
-                // Actualiza el progreso de la animación solo durante las fases de inhalación y exhalación
-                if (currentPhase == BreathingPhase.Inhale || currentPhase == BreathingPhase.Exhale) {
-                    animationProgress = 1 - (timeRemaining.toFloat() / when (currentPhase) {
-                        BreathingPhase.Inhale -> inhaleDuration
-                        BreathingPhase.Exhale -> exhaleDuration
-                        else -> 1
-                    })
-                }
+        animationSpec = tween(
+            durationMillis = if (isFilling) fillDurationMillis else emptyDurationMillis, // Duración de llenado o vaciado
+            easing = { fraction ->
+                android.view.animation.AccelerateDecelerateInterpolator().getInterpolation(fraction)
             }
-
-            // Lógica para cambiar de fase cuando el tiempo se agota
-            when (currentPhase) {
-                BreathingPhase.Inhale -> {
-                    currentPhase = BreathingPhase.Hold
-                    timeRemaining = holdBreathDuration
-                }
-                BreathingPhase.Hold -> {
-                    currentPhase = BreathingPhase.Exhale
-                    timeRemaining = exhaleDuration
-                }
-                BreathingPhase.Exhale -> {
-                    currentPhase = BreathingPhase.Pause
-                    timeRemaining = pauseDuration
-                }
-                BreathingPhase.Pause -> {
-                    cyclesCompleted++
-                    // Verificar si el ejercicio ha terminado
-                    if (cyclesCompleted >= totalDuration * 60 / (inhaleDuration + holdBreathDuration + exhaleDuration + pauseDuration)) {
-                        showFinishedMessage = true
-                        delay(3000L) // Mostrar el mensaje durante 3 segundos
-                        onFinish() // Llamar al callback de finalización
+        ),
+        finishedListener = {
+            coroutineScope.launch {
+                if (isFilling) {
+                    elapsedTime = 0 // Reinicia el temporizador al cambiar de fase
+                    currentPhase = "Mantener"
+                    delay(fillPauseMillis.toLong()) // Pausa después de llenarse
+                    currentPhase = "Exhalar"
+                    elapsedTime = 0
+                    isFilling = false // Comienza el vaciado
+                } else {
+                    elapsedTime = 0 // Reinicia el temporizador al cambiar de fase
+                    currentPhase = "Pausa"
+                    delay(emptyPauseMillis.toLong()) // Pausa después de vaciarse
+                    cycleCount++
+                    if (cycleCount < repeatCount) {
+                        currentPhase = "Inhalar"
+                        elapsedTime = 0
+                        isFilling = true // Vuelve a llenar
                     } else {
-                        // Si no ha terminado, reiniciar el ciclo
-                        currentPhase = BreathingPhase.Inhale
-                        timeRemaining = inhaleDuration
-                        animationProgress = 0f
+                        startAnimation = false
+                        showText = true // Muestra el texto "Fin"
                     }
                 }
             }
         }
+    )
+
+    // Temporizador para actualizar el tiempo transcurrido
+    LaunchedEffect(startAnimation, currentPhase) {
+        while (startAnimation) {
+            delay(1000L)
+            if (elapsedTime < when (currentPhase) {
+                    "Inhalar" -> fillDurationMillis / 1000
+                    "Exhalar" -> emptyDurationMillis / 1000
+                    "Mantener" -> fillPauseMillis / 1000
+                    "Pausa" -> emptyPauseMillis / 1000
+                    else -> 0
+                } - 1) { // Resta 1 para que no muestre el último valor
+                elapsedTime++
+            }
+        }
     }
 
-    // Diseño de la interfaz de usuario
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Box(
-            contentAlignment = Alignment.BottomCenter,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(16.dp)
-                .background(Color.Gray.copy(alpha = 0.2f))
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(animatedProgress)
-                    .background(
-                        when (currentPhase) {
-                            BreathingPhase.Inhale -> Color(0xFFB2EBF2)
-                            BreathingPhase.Hold -> Color(0xFF81C784)
-                            BreathingPhase.Exhale -> Color(0xFFFFCC80)
-                            BreathingPhase.Pause -> Color(0xFFEEEEEE)
-                        }
-                    )
-            )
-        }
-
-        Text(
-            text = "$timeRemaining s",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            color = when (currentPhase) {
-                BreathingPhase.Inhale -> Color(0xFFB2EBF2)
-                BreathingPhase.Hold -> Color(0xFF81C784)
-                BreathingPhase.Exhale -> Color(0xFFFFCC80)
-                BreathingPhase.Pause -> Color(0xFFEEEEEE)
-            }
-        )
-        Text(
-            text = currentPhase.label,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
-        )
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            IconButton(onClick = { isPaused = !isPaused }) {
-                Text(if (isPaused) "▶️" else "⏸️")
-            }
-            IconButton(onClick = { onFinish() }) {
-                Text("⏹")
-            }
-        }
-
-        AnimatedVisibility(
-            visible = showFinishedMessage,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
+        if (!isCountdownFinished) {
+            // Mostrar la cuenta atrás
             Text(
-                text = "¡Excelente trabajo! Sigue respirando y cuidándote.",
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                text = "$countdown",
+                fontSize = 48.sp,
+                color = Color.Black
             )
+        } else {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Contenedor del rectángulo con borde
+                Box(
+                    modifier = Modifier
+                        .width(300.dp)
+                        .height(500.dp)
+                        .border(2.dp, Color.Black) // Borde del rectángulo
+                        .align(Alignment.CenterHorizontally) // Alineación al centro
+                ) {
+                    // Caja que se llenará y vaciará con "agua"
+                    Box(
+                        modifier = Modifier
+                            .width(300.dp) // Ancho fijo
+                            .height(animatedHeight) // Altura animada
+                            .background(phaseColor) // Color del "agua" basado en la fase
+                            .align(Alignment.BottomCenter) // Empieza desde abajo
+                    )
+                }
+
+                // Mostrar la fase actual y el tiempo transcurrido
+                Text(
+                    text = "$currentPhase - $elapsedTime s",
+                    fontSize = 20.sp,
+                    color = Color.Black,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
+
+                // Botón de salir
+                Button(
+                    onClick = {
+                        navController.popBackStack() // Volver a la pantalla anterior
+                    },
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text("Salir")
+                }
+
+                // Mostrar el texto "Fin" al final de la animación
+                if (showText) {
+                    Text(
+                        text = "Fin",
+                        fontSize = 24.sp,
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                        color = Color.Black,
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                }
+            }
         }
-
-        Spacer(modifier = Modifier.height(32.dp))
     }
-}
-
-enum class BreathingPhase(val label: String) {
-    Inhale("Inhalando"),
-    Hold("Reteniendo"),
-    Exhale("Exhalando"),
-    Pause("Pausa")
 }
 
 @Preview(showBackground = true)
 @Composable
-fun BreathingExerciseAnimationScreenPreview() {
-    BreathingExerciseAnimationScreen(4, 2, 4, 2, totalDuration = 1) {}
+fun PreviewAnimatedRectangleScreen() {
+    // Reemplaza con un NavController ficticio o de prueba si es necesario
+    val fakeNavController = NavController(context = LocalContext.current)
+    SupercerebrosTheme {
+        BreathingExerciseAnimationScreen(
+            navController = fakeNavController,
+            fillDurationMillis = 6000,
+            emptyDurationMillis = 4000,
+            fillPauseMillis = 2000,
+            emptyPauseMillis = 3000,
+            repeatCount = 3
+        )
+    }
 }

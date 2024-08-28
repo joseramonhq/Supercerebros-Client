@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.supercerebros.R
 
 @Composable
-fun PuzzleGame(context: Context, resourceId: Int) {
+fun PuzzleGameScreen(context: Context, resourceId: Int) {
     var puzzleState by remember { mutableStateOf(generateInitialPuzzleState(context, resourceId)) }
 
     Column(
@@ -39,5 +39,5 @@ fun PuzzleGame(context: Context, resourceId: Int) {
 @Composable
 fun PuzzlePreview() {
     val context = LocalContext.current
-    PuzzleGame(context = context, resourceId = R.drawable.eyes_screen)
+    PuzzleGameScreen(context = context, resourceId = R.drawable.eyes_screen)
 }

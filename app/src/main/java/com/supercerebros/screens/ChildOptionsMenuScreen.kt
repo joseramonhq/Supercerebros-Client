@@ -1,5 +1,3 @@
-package com.supercerebros.screens
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,24 +13,29 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.supercerebros.ui.theme.SupercerebrosTheme
+import com.supercerebros.components.ExitConfirmationModal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GamesScreen(navController: NavHostController? = null) {
+fun ChildOptionsMenuScreen(navController: NavHostController? = null) {
+    var showExitConfirmation by remember { mutableStateOf(false) } // Estado para mostrar el modal
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Juegos", fontSize = 20.sp) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navController?.navigateUp() // Navega hacia atrás
+                        showExitConfirmation = true // Muestra el modal de confirmación de salida
                     }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -53,22 +56,38 @@ fun GamesScreen(navController: NavHostController? = null) {
         ) {
             Button(
                 onClick = {
-                    // Acción al hacer clic en el botón Juegos
+                    // Acción al hacer clic en el botón Respira!!!
+                    navController?.navigate("breathingExerciseScreen")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp) // Espacio entre los botones
+            ) {
+                Text("Respira!!!")
+            }
+
+            Button(
+                onClick = {
+                    // Acción al hacer clic en el botón Puzzle
+                    navController?.navigate("puzzleGameScreen")
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Juegos")
+                Text("Puzzle")
             }
+        }
+
+        // Mostrar el modal de confirmación de salida si showExitConfirmation es true
+        if (showExitConfirmation) {
+            ExitConfirmationModal(
+                onConfirm = {
+                    showExitConfirmation = false // Ocultar el modal
+                    navController?.navigateUp() // Navegar hacia atrás si se confirma la salida
+                },
+                onDismiss = {
+                    showExitConfirmation = false // Ocultar el modal si se cancela la salida
+                }
+            )
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun GamesScreenPreview() {
-    SupercerebrosTheme {
-        GamesScreen()
-    }
-}
-
-

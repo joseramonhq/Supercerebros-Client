@@ -1,5 +1,6 @@
 [versions]
 agp = "8.4.2"
+foundationLayout = "1.6.8"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -16,12 +17,13 @@ compose-material-dialogs-datetime = "0.9.0"
 retrofit = "2.9.0"
 okhttp = "4.9.1"
 realm = "10.10.0"
-firebaseFirestoreKtx = "25.0.0"
+firebaseFirestoreKtx = "25.1.0"
 coreSplashscreen = "1.0.1"
-uiDesktop = "1.6.8"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "foundationLayout" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -48,7 +50,9 @@ realm = { group = "io.realm", name = "realm-gradle-plugin", version.ref = "realm
 compose-material-dialogs-datetime = { module = "io.github.vanpra.compose-material-dialogs:datetime", version.ref = "compose-material-dialogs-datetime" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
-androidx-ui-desktop = { group = "androidx.compose.ui", name = "ui-desktop", version.ref = "uiDesktop" }
+
+
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

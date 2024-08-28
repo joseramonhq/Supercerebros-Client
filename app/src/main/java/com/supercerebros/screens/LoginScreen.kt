@@ -137,7 +137,7 @@ fun onLoginClick(navController: NavController, email: String, password: String) 
                                     val child = Gson().fromJson(Gson().toJson(it.user), Child::class.java)
                                     println("Niño recibido: ${child.fullName}")
                                     app.login(child)  // Almacena el objeto Child en MyApplication
-                                    navController.navigate("underConstruction")  // Navegar al menú del niño
+                                    navController.navigate("childMenu")  // Navegar al menú del niño
                                 }
                                 else -> {
                                     println("Tipo desconocido de usuario")

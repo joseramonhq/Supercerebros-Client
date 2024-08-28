@@ -1,3 +1,5 @@
+package com.supercerebros.screens
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +15,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.supercerebros.MyApplication
-
+import com.supercerebros.components.ExitConfirmationModal
 import com.supercerebros.ui.theme.SupercerebrosTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +46,9 @@ fun TutorMenuScreen(
 ) {
     val context = LocalContext.current
     val app = context.applicationContext as MyApplication
+
+    // Estado para controlar la visibilidad del modal
+    var showExitConfirmation by remember { mutableStateOf(false) }
 
     // Obtener el usuario actual como UserOrChild.User
     val currentUser = app.currentUser
@@ -61,7 +70,7 @@ fun TutorMenuScreen(
             TopAppBar(
                 title = { Text("Menú Principal") },
                 navigationIcon = {
-                    IconButton(onClick = onBackClick) {
+                    IconButton(onClick = { showExitConfirmation = true }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Atrás"
@@ -143,9 +152,21 @@ fun TutorMenuScreen(
                 Text(text = "Salir", fontSize = 18.sp)
             }
         }
+
+        // Mostrar el modal de confirmación de salida si showExitConfirmation es true
+        if (showExitConfirmation) {
+            ExitConfirmationModal(
+                onConfirm = {
+                    showExitConfirmation = false // Ocultar el modal
+                    onBackClick() // Llamar la función onBackClick si se confirma la salida
+                },
+                onDismiss = {
+                    showExitConfirmation = false // Ocultar el modal si se cancela la salida
+                }
+            )
+        }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

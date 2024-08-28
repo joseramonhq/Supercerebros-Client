@@ -1,28 +1,25 @@
 package com.supercerebros.screens.breathing
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,22 +28,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BreathingExerciseScreen() {
-    var inhaleDuration by remember { mutableStateOf(4) }
-    var holdBreathDuration by remember { mutableStateOf(0) }
-    var exhaleDuration by remember { mutableStateOf(4) }
-    var pauseDuration by remember { mutableStateOf(0) }
-    var totalDuration by remember { mutableStateOf(5) }
-    var vibrateEnabled by remember { mutableStateOf(true) }
-    var soundEnabled by remember { mutableStateOf(true) }
-    var interactiveMode by remember { mutableStateOf(true) }
+fun BreathingExerciseScreen(navController: NavController) {
+    var inhaleDuration by remember { mutableIntStateOf(4) }
+    var holdBreathDuration by remember { mutableIntStateOf(0) }
+    var exhaleDuration by remember { mutableIntStateOf(4) }
+    var pauseDuration by remember { mutableIntStateOf(0) }
+    var totalDuration by remember { mutableIntStateOf(5) }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Respiración Equilibrada") })
+            TopAppBar(
+                title = { Text("Respiración Equilibrada") },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.navigateUp() // Navega hacia atrás
+                    }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Retroceder"
+                        )
+                    }
+                }
+            )
         }
     ) { paddingValues ->
         Column(
@@ -55,7 +63,7 @@ fun BreathingExerciseScreen() {
                 .padding(paddingValues)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -69,18 +77,76 @@ fun BreathingExerciseScreen() {
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     TotalDurationSelector("Duración (minutos)", totalDuration, { if (totalDuration > 1) totalDuration-- }, { if (totalDuration < 60) totalDuration++ })
-                    OptionSelector("Vibrar", vibrateEnabled) { vibrateEnabled = it }
-                    OptionSelector("Sonido", soundEnabled) { soundEnabled = it }
-                    OptionSelector("Interactivo", interactiveMode) { interactiveMode = it }
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text("Perfiles predefinidos", fontSize = 18.sp, fontWeight = FontWeight.Bold)
 
-            FilledTonalButton(onClick = { /* Start the breathing exercise */ }) {
+                    // Fila con 3 botones en cada fila, total 2 filas
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        ProfileButton("Relajación", onClick = {
+                            inhaleDuration = 4; holdBreathDuration = 7; exhaleDuration = 8; pauseDuration = 2
+                        })
+                        ProfileButton("Alivio Estrés", onClick = {
+                            inhaleDuration = 4; holdBreathDuration = 4; exhaleDuration = 4; pauseDuration = 2
+                        })
+                        ProfileButton("Energizante", onClick = {
+                            inhaleDuration = 2; holdBreathDuration = 2; exhaleDuration = 4; pauseDuration = 2
+                        })
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        ProfileButton("Sueño", onClick = {
+                            inhaleDuration = 5; holdBreathDuration = 3; exhaleDuration = 5; pauseDuration = 2
+                        })
+                        ProfileButton("Calma Rápida", onClick = {
+                            inhaleDuration = 3; holdBreathDuration = 3; exhaleDuration = 6; pauseDuration = 1
+                        })
+                        ProfileButton("Meditación", onClick = {
+                            inhaleDuration = 6; holdBreathDuration = 4; exhaleDuration = 8; pauseDuration = 3
+                        })
+                    }
+                }
+            }
+
+            Button(
+                onClick = {
+                    val repeatCount = ((totalDuration * 60.0) / (inhaleDuration + holdBreathDuration + exhaleDuration + pauseDuration)).toInt()
+
+                    navController.navigate(
+                        "breathingExerciseAnimationScreen/${inhaleDuration * 1000}/" +
+                                "${holdBreathDuration * 1000}/" +
+                                "${exhaleDuration * 1000}/" +
+                                "${pauseDuration * 1000}/" +
+                                "$repeatCount"
+                    )
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text("Comenzar")
             }
         }
+    }
+}
+
+@Composable
+fun ProfileButton(profileName: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .height(35.dp).padding(0.dp) // Define un tamaño fijo para cada botón
+    ) {
+        Text(profileName, fontSize = 12.sp)
     }
 }
 
@@ -128,48 +194,8 @@ fun TotalDurationSelector(label: String, duration: Int, onDecrease: () -> Unit, 
     }
 }
 
-
-@Composable
-fun DropdownMenu(selectedValue: Int, onValueChange: (Int) -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    val items = listOf(1, 3, 5, 10, 15)
-
-    Box {
-        TextButton(onClick = { expanded = true }) {
-            Text("$selectedValue minutos")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            items.forEach { value ->
-                DropdownMenuItem(
-                    text = { Text("$value minutos") },
-                    onClick = {
-                        onValueChange(value)
-                        expanded = false
-                    }
-                )
-            }
-        }
-    }
-}
-
-
-@Composable
-fun OptionSelector(label: String, isChecked: Boolean, onCheckedChange: (Boolean) -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(label, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        Switch(checked = isChecked, onCheckedChange = onCheckedChange)
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    BreathingExerciseScreen()
+    BreathingExerciseScreen(navController = rememberNavController())
 }
