@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -39,14 +40,14 @@ fun BreathingExerciseAnimationScreen(
     emptyPauseMillis: Int = 3000,      // Pausa después de vaciarse
     repeatCount: Int = 3               // Número de ciclos de llenar/vaciar
 ) {
-    var countdown by remember { mutableStateOf(3) }
+    var countdown by remember { mutableIntStateOf(3) }
     var isCountdownFinished by remember { mutableStateOf(false) }
     var startAnimation by remember { mutableStateOf(false) }
     var isFilling by remember { mutableStateOf(true) }
-    var cycleCount by remember { mutableStateOf(0) }
+    var cycleCount by remember { mutableIntStateOf(0) }
     var showText by remember { mutableStateOf(false) }
     var currentPhase by remember { mutableStateOf("Inhalar") }
-    var elapsedTime by remember { mutableStateOf(0) }
+    var elapsedTime by remember { mutableIntStateOf(0) }
     val coroutineScope = rememberCoroutineScope()
 
     // Iniciar la cuenta atrás
@@ -60,13 +61,7 @@ fun BreathingExerciseAnimationScreen(
     }
 
     // Determina el color basado en la fase actual
-    val phaseColor = when (currentPhase) {
-        "Inhalar" -> Color(0xFFB2EBF2) // Light Blue
-        "Mantener" -> Color(0xFF81C784) // Light Green
-        "Exhalar" -> Color(0xFFFFCC80) // Light Orange
-        "Pausa" -> Color(0xFFB39DDB) // Light Purple
-        else -> Color.Transparent
-    }
+    val phaseColor = color(currentPhase)
 
     // Animación de la altura del "agua" en el rectángulo con una interpolación suave
     val animatedHeight by animateDpAsState(
@@ -105,7 +100,7 @@ fun BreathingExerciseAnimationScreen(
                     }
                 }
             }
-        }
+        }, label = "animateBreathing"
     )
 
     // Temporizador para actualizar el tiempo transcurrido
@@ -176,23 +171,41 @@ fun BreathingExerciseAnimationScreen(
                 }
 
                 // Mostrar el texto "Fin" al final de la animación
-                if (showText) {
-                    Text(
-                        text = "Fin",
-                        fontSize = 24.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        color = Color.Black,
-                        modifier = Modifier.padding(top = 16.dp)
-                    )
-                }
+                showEnd(showText)
+
             }
         }
     }
 }
 
+fun color(currentPhase: String):Color{
+    return  when (currentPhase) {
+        "Inhalar" -> Color(0xFFB2EBF2) // Light Blue
+        "Mantener" -> Color(0xFF81C784) // Light Green
+        "Exhalar" -> Color(0xFFFFCC80) // Light Orange
+        "Pausa" -> Color(0xFFB39DDB) // Light Purple
+        else -> Color.Transparent
+    }
+}
+@Composable
+fun showEnd(showText: Boolean) {
+    if (showText) {
+
+
+        Text(
+                text = "Fin",
+                fontSize = 24.sp,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun PreviewAnimatedRectangleScreen() {
+fun BreathingExerciseAnimationScreenPreview() {
     // Reemplaza con un NavController ficticio o de prueba si es necesario
     val fakeNavController = NavController(context = LocalContext.current)
     SupercerebrosTheme {
