@@ -19,16 +19,29 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.supercerebros.MyApplication
 import com.supercerebros.components.ExitConfirmationModal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChildOptionsMenuScreen(navController: NavHostController? = null) {
+    val context = LocalContext.current
+    val app = context.applicationContext as MyApplication
+    val currentChild = app.currentChild
     var showExitConfirmation by remember { mutableStateOf(false) } // Estado para mostrar el modal
-
+    if (currentChild == null) {
+        Text(
+            text = "Error: Usuario no autenticado",
+            fontSize = 20.sp,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+        return
+    }
+    val childName = currentChild.fullName
     Scaffold(
         topBar = {
             TopAppBar(
@@ -54,6 +67,11 @@ fun ChildOptionsMenuScreen(navController: NavHostController? = null) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Text(
+                text = "Bienvenido, $childName",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
             Button(
                 onClick = {
                     // Acción al hacer clic en el botón Respira!!!

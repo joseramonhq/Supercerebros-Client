@@ -105,3 +105,5 @@ v
 Fapp/src/main/java/com/supercerebros/screens/puzzle/PuzzleGameScreen.kt,a\c\ac2ae9cb3e6934d776fd4cdd04dfa0bda047ee5d
 w
 Gapp/src/main/java/com/supercerebros/components/ExitConfirmationModal.kt,c\7\c7e73025224ea764fe2020444b012d251874f5a2
+t
+Dapp/src/main/java/com/supercerebros/data/BreathingExerciseSession.kt,1\c\1c4f4453763be678f2dc71e2b739f854b6b1a15a
