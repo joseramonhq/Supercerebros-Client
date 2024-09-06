@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Permitir tráfico sin cifrar hacia localhost -->
+        <domain includeSubdomains="true">localhost</domain>
+        <!-- En caso de utilizar la IP loopback en lugar de localhost -->
+        <domain includeSubdomains="true">127.0.0.1</domain>
+    </domain-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

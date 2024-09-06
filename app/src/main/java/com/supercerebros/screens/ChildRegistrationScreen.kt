@@ -244,7 +244,7 @@ fun ChildRegistrationScreen(
             item {
                 Button(
                     onClick = {
-                       // isLoading = true  // Iniciar la animación de carga
+                        // Asegúrate de que el formato de la fecha es correcto y luego crea el objeto Child
                         val child = Child(
                             userOrChildType = "Child",
                             id = null,  // El ID será asignado por el servidor
@@ -253,9 +253,9 @@ fun ChildRegistrationScreen(
                             gender = selectedGender,
                             email = email,
                             password = password,
-                            medicalInfo = medicalInfo,  // Enviar una cadena vacía si no hay información médica
-                            fileIds = emptyList(),  // Enviar una lista vacía en lugar de null
-                            parentId = currentUser?.id ?: "",  // Enviar una cadena vacía si no hay parentId
+                            medicalInfo = medicalInfo,  // Información médica
+                            fileIds = emptyList(),
+                            parentId = currentUser?.id ?: "",
                             role = "Child",
                             registrationDate = null,
                             createdAt = null,
@@ -264,21 +264,18 @@ fun ChildRegistrationScreen(
                         )
                         // Llamar al callback para registrar al niño
                         onRegisterClick(child)
-
                     },
                     modifier = Modifier.fillMaxWidth(),
-                   // enabled = !isLoading  // Deshabilitar el botón mientras se carga
                 ) {
                     Text("Registrar Niño")
                 }
-
             }
         }
     }
 }
 
 // Función para registrar al niño en el servidor
-fun registerChild( navController: NavHostController,child: Child, onSuccess: () -> Unit) {
+fun registerChild(navController: NavHostController, child: Child, onSuccess: () -> Unit) {
     val apiService = RetrofitInstance.apiService
     val app = MyApplication()
 
@@ -290,25 +287,31 @@ fun registerChild( navController: NavHostController,child: Child, onSuccess: () 
                 if (registeredChild != null) {
                     // Actualizar la lista de childrenIds del tutor actual
                     val currentChildrenIds = app.currentUser?.childrenIds?.toMutableList() ?: mutableListOf()
-                    registeredChild.id.let { currentChildrenIds.add(it) }
+                    registeredChild.id?.let { currentChildrenIds.add(it) }
                     app.currentUser = app.currentUser?.copy(childrenIds = currentChildrenIds)
+
+                    // Navegar a la pantalla de éxito
                     onSuccess()  // Llamar al callback de éxito
-                    navController.navigate("successScreen")
+                    navController.navigate("successScreen2")
                 } else {
                     Log.e(
                         "ChildRegistrationScreen",
                         "Error en el registro: ${response.message()} - ${response.errorBody()?.string()}"
                     )
                 }
-
+            } else {
+                Log.e(
+                    "ChildRegistrationScreen",
+                    "Error en el registro: ${response.message()} - ${response.errorBody()?.string()}"
+                )
             }
         }
+
         override fun onFailure(call: Call<ChildResponse>, t: Throwable) {
             Log.e("RegisterScreen", "Error de red: ${t.message}")
         }
     })
 }
-
 @Preview(showBackground = true)
 @Composable
 fun ChildRegistrationScreenPreview() {

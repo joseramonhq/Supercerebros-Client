@@ -1,2 +1,9 @@
 
-œkotlin:S3776#"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(ˆÏÕúÿÿÿÿ8ÆúïÆš2J$5653f7db-cbba-4980-b3c8-028a1863886d
+pkotlin:S6508•"*Replace this usage of Void type with Unit.(íØ¸Ä8×•ÙÆ›2J$634931fe-8daa-4cf2-9e81-20fabe3d3de7
+ukotlin:S6508–"*Replace this usage of Void type with Unit.(µ‹¥—ıÿÿÿÿ8×•ÙÆ›2J$62113253-c404-405c-b7d6-84c78e2987ea
+ukotlin:S6508–"*Replace this usage of Void type with Unit.(µ‹¥—ıÿÿÿÿ8×•ÙÆ›2J$92c460eb-cb39-4170-8a91-206adca8d809
+ukotlin:S6508"*Replace this usage of Void type with Unit.(ºÔÂşÿÿÿÿ8Ø•ÙÆ›2J$8cdae30a-ad23-4290-abf5-078e638c6294
+†kotlin:S6619´";Remove this useless non-null assertion !!, it always fails.(É¥Ôúùÿÿÿÿ8Ú•ÙÆ›2J$24acb986-70b1-44a9-8e6c-d16d6d7c7605
+wkotlin:S1135™"2Complete the task associated to this TODO comment.(É‘Ì	8æ•ÙÆ›2J$b1de3503-46d3-45ab-b5f7-74b571340591
+xkotlin:S1135š"2Complete the task associated to this TODO comment.(òºé8æ•ÙÆ›2J$bf313b89-6be5-449e-ba9c-e8935491e6d9
+œkotlin:S37765"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(ˆÏÕúÿÿÿÿ8ï•ÙÆ›2J$41165226-df90-4deb-aba3-6df447f5e3fb

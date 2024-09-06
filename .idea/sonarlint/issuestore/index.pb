@@ -67,8 +67,6 @@ d
 4app/src/main/java/com/supercerebros/MyApplication.kt,a\5\a5889514561ad56ea23c73f934397b3726ec23f8
 i
 9app/src/main/java/com/supercerebros/data/ChildResponse.kt,2\e\2e1774eabf0547b08858e8eb8e6455ab4fbbfd36
-q
-Aapp/src/main/java/com/supercerebros/controllers/UserController.kt,6\5\65a934dfac7e253d9b505dc1ea2a77a8eb7e976b
 
 Q.idea/sonarlint/securityhotspotstore/3/c/3c02e72d3fd5c05a8a454c6a85aee89f54cbaa42,0\6\0625a89723a212ee235655610e0942af2454841c
 w
@@ -85,8 +83,6 @@ w
 G.idea/sonarlint/issuestore/7/a/7a5ff7376fd3bff3b2388d60710b5f105ea0d4e5,0\2\02479406ff607975cefebaece7cd71838f514c75
 
 Q.idea/sonarlint/securityhotspotstore/2/e/2e1774eabf0547b08858e8eb8e6455ab4fbbfd36,a\b\abf26683b4b0687a39c123294c670290a919c7ae
-r
-Bapp/src/main/java/com/supercerebros/controllers/ChildController.kt,0\5\0564c6e8a0f61bcc2c226fad3bef70b5185736c0
 u
 Eapp/src/main/java/com/supercerebros/screens/ChildOptionsMenuScreen.kt,9\b\9b0d86cb692aa75906ae93ad4573d006cbcf9d4f
 ‰
@@ -107,3 +103,15 @@ w
 Gapp/src/main/java/com/supercerebros/components/ExitConfirmationModal.kt,c\7\c7e73025224ea764fe2020444b012d251874f5a2
 t
 Dapp/src/main/java/com/supercerebros/data/BreathingExerciseSession.kt,1\c\1c4f4453763be678f2dc71e2b739f854b6b1a15a
+A
+gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
+i
+9app/src/main/java/com/supercerebros/data/BreathRequest.kt,f\5\f5876d2e62d58aa86ecbd2da7d2851b6190e8f99
+j
+:app/src/main/java/com/supercerebros/data/BreathResponse.kt,1\7\176fb1f42e0128bbf641be0feadaee2cb9bb64a3
+n
+>app/src/main/java/com/supercerebros/models/BreathingSession.kt,8\e\8edff68208ff08ebad4f1895755f96d76eec4438
+F
+app/proguard-rules.pro,9\e\9e08934d811afe28fbc77aaa3c0d747b94348db9
+l
+<app/src/main/java/com/supercerebros/screens/SucessScreen2.kt,e\e\ee96e59649d090c3e1ecc67504d828a0390ccbcb

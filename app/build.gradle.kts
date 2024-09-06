@@ -65,6 +65,9 @@ dependencies {
 
 
 
+
+
+
     // Retrofit para conexiones HTTP
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
