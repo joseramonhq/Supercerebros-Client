@@ -122,9 +122,8 @@ fun SuperCerebrosNavHost(
         }
 
         composable(
-            "breathingExerciseAnimationScreen{childId}/{fillDurationMillis}/{fillPauseMillis}/{emptyDurationMillis}/{emptyPauseMillis}/{repeatCount}",
+            "breathingExerciseAnimationScreen/{fillDurationMillis}/{fillPauseMillis}/{emptyDurationMillis}/{emptyPauseMillis}/{repeatCount}",
             arguments = listOf(
-                navArgument("childId") { type = NavType.StringType },
                 navArgument("fillDurationMillis") { type = NavType.IntType },
                 navArgument("fillPauseMillis") { type = NavType.IntType },
                 navArgument("emptyDurationMillis") { type = NavType.IntType },
@@ -132,7 +131,6 @@ fun SuperCerebrosNavHost(
                 navArgument("repeatCount") { type = NavType.IntType }
             )
         ) { backStackEntry ->
-            val childId = backStackEntry.arguments?.getString("childId") ?: ""
             val fillDurationMillis = backStackEntry.arguments?.getInt("fillDurationMillis") ?: 6000
             val fillPauseMillis = backStackEntry.arguments?.getInt("fillPauseMillis") ?: 2000
             val emptyDurationMillis = backStackEntry.arguments?.getInt("emptyDurationMillis") ?: 4000
@@ -140,7 +138,6 @@ fun SuperCerebrosNavHost(
             val repeatCount = backStackEntry.arguments?.getInt("repeatCount") ?: 3
 
             BreathingExerciseAnimationScreen(
-                childId = childId,
                 fillDurationMillis = fillDurationMillis,
                 fillPauseMillis = fillPauseMillis,
                 emptyDurationMillis = emptyDurationMillis,
@@ -149,6 +146,14 @@ fun SuperCerebrosNavHost(
                 navController = navController
             )
         }
+
+        composable("puzzleGameScreen") {
+            val context = LocalContext.current
+            PuzzleGameScreen(context = context, resourceId = R.drawable.eyes_screen)
+
+        }
+
+    }
 
         composable("puzzleGameScreen") {
             val context = LocalContext.current
